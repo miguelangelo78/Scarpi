@@ -95,7 +95,8 @@ class Scarpi{
 					case "src" : $what_to_push = $el->src; break;
 					case "tag" : $what_to_push = $el->tag; break;
 					case "inner" : $what_to_push = $el->innertext; break;
-					default: /*IGNORE*/ break;
+					case "_all_" : $what_to_push = $el->getAllAttributes(); break;
+					default: $what_to_push = $el->getAttribute($target_mode); break;
 				}
 				
 				if(!empty($what_to_push)){

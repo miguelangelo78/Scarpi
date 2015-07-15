@@ -113,7 +113,7 @@ glyphicon glyphicon-'></span>API Syntax</div>
 						<li class='list-group-item'>Get Nth element with length: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | text | 10 | <b class='highCode'>5</b>", "img | src | 5 | <b class='highCode'>2</b>"], "unescape": false}]</code></li>
 						<li class='list-group-item'>Get Nth element with length without specifying attribute: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | 10 | 5", "img | 5 | 2"], "unescape": false}]</code></li>
 						<li class='list-group-item'>
-							HTML Attributes supported:
+							Standard HTML Attributes supported:
 							<ul class='list-group'>
 								<li class='list-group-item'>Get HTML - <code>HTML</code></li>
 								<li class='list-group-item'>Plain text - <code>TEXT</code></li>
@@ -121,10 +121,12 @@ glyphicon glyphicon-'></span>API Syntax</div>
 								<li class='list-group-item'>Source - <code>SRC</code></li>
 								<li class='list-group-item'>Element tag - <code>TAG</code></li>
 								<li class='list-group-item'>Inner HTML - <code>INNER</code></li>
+								<li class='list-group-item'>All attributes - <code>_ALL_</code></li>
+								<li class='list-group-item'>Custom - <code>"YOUR ATTRIBUTE HERE"</code></li>
 							</ul>
+							All attributes are case insensitive
 						</li>
 					</ul>
-					
 					
 				</div>
 			</div>
