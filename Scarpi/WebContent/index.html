@@ -26,6 +26,7 @@
 		
 		#queryAns{
 			font-family: Consolas;
+			overflow: auto;
 		}
 		
 		#queryAns:hover{
@@ -33,15 +34,21 @@
 		}
 		
 		#page-title{
-		
-			background-color: #ABA982;
+			-webkit-touch-callout: none;
+		    -webkit-user-select: none;
+		    -khtml-user-select: none;
+		    -moz-user-select: none;
+		    -ms-user-select: none;
+		    user-select: none;
+			
+			background-color: #6670AD;
 			color: white;
-			padding: 10px 0 15px 20px;
-			border: 1px solid #8C8B69;
+			padding: 5px 0 10px 15px;
+			border: 1px solid #485A7A;
 			border-radius: 2px;
 			text-shadow: 2px 2px 2px #5E5E5E;
-			font-size: 25px;
-			width: 240px;
+			font-size: 20px;
+			width: 190px;
 			margin-top: 5px;
 			margin-bottom: 5px;
 		}
@@ -49,6 +56,7 @@
 		#page-title > a {
 			color: white;
 			text-decoration: none;
+			margin-right: 8px;
 		}
 		
 		#page-title > div {
@@ -57,18 +65,18 @@
 		
 	</style>
 
-	<body style='background-color:#E8E7CC;font-family:"Open Sans"'>
+	<body style='background-color:#E3DFD7;font-family:"Open Sans"'>
 		<div class='container'>
 			<div id='page-title' class='page-header'>
 			
-			<a href='index.html'>Scarpi API </a><div style='font-size: 0.5em; background-color:#757459' class='label label-default'>Test page</div>
+			<a href='index.html'>Scarpi API</a><div style='font-size: 0.5em; background-color:#304875' class='label label-default'>Test page</div>
 			
 			</div>
 			<div style='background: #F2F2F2;box-shadow: 0px 0px 1px #000000' class='well'>
 				<div class='row'>
 					<div class='col-md-4'>
-						<div style='background-color: #78C4AF; width: 100px;display:block;padding:10px;text-shadow: 0px 1px 0px #363636; font-size: 13px; margin-bottom:10px;' class='badge'>Enter Query:</div>
-						<textarea id='queryArea' style='min-height: 126px;max-height: 334px;min-width: 460px;max-width: 460px;padding:10px' rows="30" cols="50"></textarea>
+						<div style='border:1px solid #A84E43;background-color: #EF6555; width: 100px;display:block;padding:10px;text-shadow: 0px 1px 0px #363636; font-size: 13px; margin-bottom:10px;' class='badge'>Enter Query:</div>
+						<textarea name='queryArea' id='queryArea' style='border-radius:2px;min-height: 126px;max-height: 334px;min-width: 460px;max-width: 460px;padding:10px' rows="30" cols="50">{"url":"http://9gag.com/", "targets": ["",""]}</textarea>
 						<br><br>
 						<input class='btn btn-xs btn-primary' id='sbmBtn' type='button' value='Query API'>
 						<input class='btn btn-xs btn-primary' id='clrOut' type='button' value='Clear Output'>
@@ -76,7 +84,7 @@
 					<div class='col-md-offset-1 col-md-7'>
 						<br>
 						<h5 style='margin-left:10px;text-shadow: 0px 1px 0px #FFFFFF' class='container'>Output:</h5>
-						<div style='font-size: 0.9em; background:white;box-shadow:0px 0px 2px 0px #000000; padding: 10px; float:right;width:600px;display:inline-block;border: 0px solid black' id='queryAns'></div>
+						<div style='height:322px;border-radius:5px;font-size: 0.9em; background:white;box-shadow:0px 0px 2px 0px #000000; padding: 10px; float:right;width:600px;border: 0px solid black' id='queryAns'></div>
 					</div>
 				</div>
 			</div>
@@ -90,7 +98,6 @@
 		jQuery.fn.selText = function(){
 		   var doc = document;
 		   var element = this[0];
-		   console.log(this, element);
 		   if (doc.body.createTextRange) {
 		       var range = document.body.createTextRange();
 		       range.moveToElementText(element);
@@ -105,7 +112,8 @@
 		};
 	
 		var queryAnsPrefix = "<span style='margin-right:5px;font-size:0.7em' class='glyphicon glyphicon-menu-right'></span>";
-	
+		var isMouseMoving = false;
+		
 		function query(callback, data){
 			$.ajax({
 				url: "static/query.php",
@@ -116,9 +124,21 @@
 			});
 		}
 		
+		function error_handle(err){
+			var msg = "<b>Exception</b>: "+err;
+			console.log(msg);
+			$("#queryAns").html(queryAnsPrefix+"<span style='color:#D16262'>"+msg+"</span>");
+		}
+		
 		$(function(){
-			$("#queryAns").on('click', function(){
-				$(this).selText();
+			$("#queryAns").mousedown(function(){
+				isMouseMoving = false;
+			}).mousemove(function(){
+				isMouseMoving = true;
+			}).mouseup(function(){
+				if(!isMouseMoving)
+					$(this).selText();
+				isMouseMoving = false;
 			});
 			
 			$("#clrOut").click(function(){
@@ -129,16 +149,22 @@
 				try{
 					$("#queryAns").html("<span style='color: #A6A6A6; weight: bold'>Querying... please wait a moment.</span>");
 					
-					var json = JSON.parse($("#queryArea").val());
+					var json = { "data" : JSON.parse($("#queryArea").val())} ;
 					
 					query(function(data, is_error){
-						$("#queryAns").html(queryAnsPrefix+data);
+						try{
+							if((data.indexOf(".php")>-1 && data.indexOf("error")>-1) && data.indexOf("<b>Warning</b>")>-1 || data.indexOf("<b>Fatal error</b>:")>-1)
+								throw data;
+							
+							$("#queryAns").html(queryAnsPrefix+data);
+							console.log(data);
+						}catch(err){
+							error_handle(err);
+						}
 					},json);
 					
 				}catch(err){
-					var msg = "<b>Exception</b>: "+err;
-					console.log(msg);
-					$("#queryAns").html(queryAnsPrefix+"<span style='color:#D16262'>"+msg+"</span>");
+					error_handle(err);
 				}
 			});
 		});
