@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link href='lib/google-code-prettify/prettify.css'>
 	
 </head>
 	<style>
@@ -63,6 +64,16 @@
 			cursor: default;
 		}
 		
+		#apiSyntaxList > li{
+			font-family:  Consolas;
+			font-size: 0.8em;
+		}
+		
+		.highCode{
+			font-size: 1.3em;
+			font-weight: bolder;
+		}
+		
 	</style>
 
 	<body style='background-color:#E3DFD7;font-family:"Open Sans"'>
@@ -88,11 +99,48 @@
 					</div>
 				</div>
 			</div>
+			<div class='container'>
+				<div class='row'>
+					<div style='font-size:1.5em' class='page-header'><span style='font-size:0.7em;margin-right: 10px;' class='glyphicon glyphicon-arrow-right
+glyphicon glyphicon-'></span>API Syntax</div>
+					
+					
+					<ul id='apiSyntaxList' class='list-group'>
+						<li class='list-group-item'>Normal call: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1", "img"], "unescape": false}]</code></li>
+						<li class='list-group-item'>Render HTML: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1", "img"], "unescape": <b class='highCode'>true</b>}]</code></li>
+						<li class='list-group-item'>Get HTML attribute: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | <b class='highCode'>text</b>", "img | <b class='highCode'>src</b>"], "unescape": false}]</code></li>
+						<li class='list-group-item'>Get Nth element: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | text | <b class='highCode'>10</b>", "img | src | <b class='highCode'>5</b>"], "unescape": false}]</code></li>
+						<li class='list-group-item'>Get Nth element with length: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | text | 10 | <b class='highCode'>5</b>", "img | src | 5 | <b class='highCode'>2</b>"], "unescape": false}]</code></li>
+						<li class='list-group-item'>Get Nth element with length without specifying attribute: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | 10 | 5", "img | 5 | 2"], "unescape": false}]</code></li>
+						<li class='list-group-item'>
+							HTML Attributes supported:
+							<ul class='list-group'>
+								<li class='list-group-item'>Get HTML - <code>HTML</code></li>
+								<li class='list-group-item'>Plain text - <code>TEXT</code></li>
+								<li class='list-group-item'>HREF property - <code>HREF</code></li>
+								<li class='list-group-item'>Source - <code>SRC</code></li>
+								<li class='list-group-item'>Element tag - <code>TAG</code></li>
+								<li class='list-group-item'>Inner HTML - <code>INNER</code></li>
+							</ul>
+						</li>
+					</ul>
+					
+					
+				</div>
+			</div>
 		</div>
 	</body>
 	
 	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="lib/google-code-prettify/prettify.js"></script>
+	    <script type="text/javascript">
+      !function ($) {
+        $(function(){
+          window.prettyPrint && prettyPrint()   
+        })
+      }(window.jQuery)
+    </script>
 	
 	<script>
 		jQuery.fn.selText = function(){
