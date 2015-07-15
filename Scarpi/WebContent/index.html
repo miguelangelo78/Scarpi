@@ -52,6 +52,7 @@
 			width: 190px;
 			margin-top: 5px;
 			margin-bottom: 5px;
+			display: inline-block;
 		}
 		
 		#page-title > a {
@@ -74,6 +75,17 @@
 			font-weight: bolder;
 		}
 		
+		#links{
+			text-decoration: none;
+			margin-left: 5px;
+		}
+		
+		#links > a {
+			font-size: 0.8em;
+			margin: 0 10px 0 10px;
+			color: #807D78;
+		}
+		
 	</style>
 
 	<body style='background-color:#E3DFD7;font-family:"Open Sans"'>
@@ -83,11 +95,83 @@
 			<a href='index.html'>Scarpi API</a><div style='font-size: 0.5em; background-color:#304875' class='label label-default'>Test page</div>
 			
 			</div>
-			<div style='background: #F2F2F2;box-shadow: 0px 0px 1px #000000' class='well'>
+			<span id='links'>
+				<a data-toggle='modal' data-target="#modal-about" href=''>About</a> |
+				<a data-toggle='modal' data-target='#modal-apisyntax' href=''>API Syntax</a> |
+				<a data-toggle='modal' data-target='#modal-visitgithub' href=''>Github</a>
+			</span>
+			
+			<div class='modal fade' role="dialog" id='modal-about'>
+				<div class='modal-dialog'>
+					<div class='modal-content'>
+						<div class='modal-header'>About</div>
+						<div class='modal-body'>
+							<p>Scarpi is an API written in PHP with the purpose of serving RESTful requests which return data scraped from any website you desire.</p>
+							<p>The API including this website have been developed by Miguel Santos</p>
+						</div>
+						<div class='modal-footer'>
+							<button type='button' class='btn btn-primary' data-dismiss='modal'>Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class='modal fade' role="dialog" id='modal-apisyntax'>
+				<div class='modal-dialog'>
+					<div class='modal-content'>
+						<div class='modal-header'>API Syntax</div>
+						<div class='modal-body'>
+							<ul id='apiSyntaxList' class='list-group'>
+								<li class='list-group-item'>Normal call: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1", "img"], "render": false}]</code></li>
+								<li class='list-group-item'>Render HTML: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1", "img"], "render": <b class='highCode'>true</b>}]</code></li>
+								<li class='list-group-item'>Get HTML attribute: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | <b class='highCode'>text</b>", "img | <b class='highCode'>src</b>"], "render": false}]</code></li>
+								<li class='list-group-item'>Get Nth element: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | text | <b class='highCode'>10</b>", "img | src | <b class='highCode'>5</b>"], "render": false}]</code></li>
+								<li class='list-group-item'>Get Nth element with length: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | text | 10 | <b class='highCode'>5</b>", "img | src | 5 | <b class='highCode'>2</b>"], "render": false}]</code></li>
+								<li class='list-group-item'>Get Nth element with length without specifying attribute: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | 10 | 5", "img | 5 | 2"], "render": false}]</code></li>
+								<li class='list-group-item'>Minimalistic (the API tries to guess): <code>[{"url":"www.yourwebsite.com"}]</code></li>
+								<li class='list-group-item'>
+									Standard HTML Attributes supported:
+									<ul class='list-group'>
+										<li class='list-group-item'>Get HTML - <code>HTML</code></li>
+										<li class='list-group-item'>Plain text - <code>TEXT</code></li>
+										<li class='list-group-item'>HREF property - <code>HREF</code></li>
+										<li class='list-group-item'>Source - <code>SRC</code></li>
+										<li class='list-group-item'>Element tag - <code>TAG</code></li>
+										<li class='list-group-item'>Inner HTML - <code>INNER</code></li>
+										<li class='list-group-item'>All attributes - <code>_ALL_</code></li>
+										<li class='list-group-item'>Custom - <code>"YOUR ATTRIBUTE HERE"</code></li>
+									</ul>
+									All attributes are case insensitive
+								</li>
+							</ul>
+						</div>
+						<div class='modal-footer'>
+							<button type='button' class='btn btn-primary' data-dismiss='modal'>Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class='modal fade' role="dialog" id='modal-visitgithub'>
+				<div class='modal-dialog'>
+					<div class='modal-content'>
+						<div class='modal-header'>Github page</div>
+						<div style='text-align:center;font-size: 1.2em' class='modal-body'>
+							For more documentation and source code, fork this project <a href='https://github.com/miguelangelo78/Scarpi'>on Github</a>
+							 and also, visit my <a href='https://github.com/miguelangelo78'>Github Page</a>
+						</div>
+						<div class='modal-footer'>
+							<button type='button' class='btn btn-primary' data-dismiss='modal'>Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div style='border-radius:5px;background: #F2F2F2;box-shadow: 0px 0px 1px #CFCFCF' class='well'>
 				<div class='row'>
 					<div class='col-md-4'>
 						<div style='border:1px solid #A84E43;background-color: #EF6555; width: 100px;display:block;padding:10px;text-shadow: 0px 1px 0px #363636; font-size: 13px; margin-bottom:10px;' class='badge'>Enter Query:</div>
-						<textarea name='queryArea' id='queryArea' style='border-radius:2px;min-height: 126px;max-height: 334px;min-width: 460px;max-width: 460px;padding:10px' rows="30" cols="50">[{"url":"http://9gag.com/", "targets": ["html"], "unescape": false}]</textarea>
+						<textarea name='queryArea' id='queryArea' style='border-radius:2px;min-height: 126px;max-height: 334px;min-width: 460px;max-width: 460px;padding:10px' rows="30">[{"url":"http://9gag.com/", "targets": ["html"], "render": false}]</textarea>
 						<br><br>
 						<input class='btn btn-xs btn-primary' id='sbmBtn' type='button' value='Query API'>
 						<input class='btn btn-xs btn-primary' id='clrOut' type='button' value='Clear Output'>
@@ -106,12 +190,13 @@ glyphicon glyphicon-'></span>API Syntax</div>
 					
 					
 					<ul id='apiSyntaxList' class='list-group'>
-						<li class='list-group-item'>Normal call: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1", "img"], "unescape": false}]</code></li>
-						<li class='list-group-item'>Render HTML: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1", "img"], "unescape": <b class='highCode'>true</b>}]</code></li>
-						<li class='list-group-item'>Get HTML attribute: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | <b class='highCode'>text</b>", "img | <b class='highCode'>src</b>"], "unescape": false}]</code></li>
-						<li class='list-group-item'>Get Nth element: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | text | <b class='highCode'>10</b>", "img | src | <b class='highCode'>5</b>"], "unescape": false}]</code></li>
-						<li class='list-group-item'>Get Nth element with length: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | text | 10 | <b class='highCode'>5</b>", "img | src | 5 | <b class='highCode'>2</b>"], "unescape": false}]</code></li>
-						<li class='list-group-item'>Get Nth element with length without specifying attribute: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | 10 | 5", "img | 5 | 2"], "unescape": false}]</code></li>
+						<li class='list-group-item'>Normal call: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1", "img"], "render": false}]</code></li>
+						<li class='list-group-item'>Render HTML: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1", "img"], "render": <b class='highCode'>true</b>}]</code></li>
+						<li class='list-group-item'>Get HTML attribute: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | <b class='highCode'>text</b>", "img | <b class='highCode'>src</b>"], "render": false}]</code></li>
+						<li class='list-group-item'>Get Nth element: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | text | <b class='highCode'>10</b>", "img | src | <b class='highCode'>5</b>"], "render": false}]</code></li>
+						<li class='list-group-item'>Get Nth element with length: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | text | 10 | <b class='highCode'>5</b>", "img | src | 5 | <b class='highCode'>2</b>"], "render": false}]</code></li>
+						<li class='list-group-item'>Get Nth element with length without specifying attribute: <code>[{"url":"www.yourwebsite.com", "targets": ["css_selector1 | 10 | 5", "img | 5 | 2"], "render": false}]</code></li>
+						<li class='list-group-item'>Minimalistic (the API tries to guess): <code>[{"url":"www.yourwebsite.com"}]</code></li>
 						<li class='list-group-item'>
 							Standard HTML Attributes supported:
 							<ul class='list-group'>
@@ -129,6 +214,12 @@ glyphicon glyphicon-'></span>API Syntax</div>
 					</ul>
 					
 				</div>
+			</div>
+		</div>
+		<hr>
+		<div class='footer'>
+			<div class='container'>
+				<p>Copyright &copy; Scarpi API</p>
 			</div>
 		</div>
 	</body>
