@@ -38,8 +38,6 @@ class Scarpi{
 	private function parse(&$html, &$targets){
 		$res_container = array();
 		
-		$res_container["debug"] = $this->unescape;
-		
 		$i = 0;
 		foreach($targets as $target){
 			// Grab all options:
@@ -91,7 +89,7 @@ class Scarpi{
 				
 				$what_to_push = null;
 				switch($target_mode){
-					case "html": $what_to_push = ($this->unescape) ? $el->outertext : htmlspecialchars($el->outertext); break;
+					case "html": $what_to_push = ($this->unescape) ? stripslashes($el->outertext) : htmlspecialchars($el->outertext); break;
 					case "text": $what_to_push = $el->plaintext; break;
 					case "href": $what_to_push = $el->href; break;
 					case "src" : $what_to_push = $el->src; break;
@@ -124,7 +122,5 @@ class Scarpi{
 			
 		echo json_encode($result);
 	}
-	//if(isset($_POST["url"]) && isset($_POST["targets"])){
-	//}
 	
 ?>
